@@ -4,6 +4,7 @@ import path from "path";
 import { logger } from "./utils/logger";
 import { workerPool } from "./mediasoup/worker-pool";
 import { roomManager } from "./mediasoup/room-manager";
+import { initializeSocketIO } from "./socket/socket-handler";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,7 +15,7 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 
 // 정적 파일 제공 (클라이언트)
-app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "../dist/public")));
 
 // 헬스체크
 app.get("/health", (_req, res) => {
@@ -39,6 +40,10 @@ async function startServer() {
   try {
     // mediasoup Worker Pool 초기화
     await workerPool.initialize();
+
+    // Socket.io 초기화
+    initializeSocketIO(server);
+    logger.info("Socket.io initialized");
 
     server.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);
