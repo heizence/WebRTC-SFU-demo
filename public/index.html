@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,9 +9,50 @@
   <body>
     <div class="container">
       <h1>WebRTC SFU Demo</h1>
-      <div id="status">Connecting...</div>
+
+      <div id="status" class="status">Connecting...</div>
+
+      <div class="controls">
+        <div class="control-group">
+          <input type="text" id="nickname" placeholder="닉네임 입력" value="" />
+          <button id="createRoomBtn">방 만들기</button>
+        </div>
+
+        <div class="control-group">
+          <input type="text" id="roomIdInput" placeholder="방 ID 입력" />
+          <button id="joinRoomBtn">방 입장</button>
+        </div>
+
+        <div class="control-group">
+          <button id="leaveRoomBtn" disabled>방 나가기</button>
+          <button id="startMediaBtn" disabled>미디어 시작</button>
+        </div>
+      </div>
+
+      <div id="roomInfo" class="room-info" style="display: none">
+        <h3>방 정보</h3>
+        <p><strong>방 ID:</strong> <span id="currentRoomId"></span></p>
+        <p><strong>내 Peer ID:</strong> <span id="currentPeerId"></span></p>
+        <p><strong>참여자 수:</strong> <span id="peerCount">0</span>명</p>
+      </div>
+
+      <div id="videoContainer" class="video-container">
+        <h3>비디오</h3>
+        <div id="localVideoContainer">
+          <h4>내 화면</h4>
+          <video id="localVideo" autoplay muted playsinline></video>
+        </div>
+        <div id="remoteVideos"></div>
+      </div>
+
+      <div id="peerList" class="peer-list">
+        <h3>참여자</h3>
+        <ul id="peers"></ul>
+      </div>
     </div>
+
     <script src="/socket.io/socket.io.js"></script>
-    <script src="app.js"></script>
+    <!-- ES Module로 로드 -->
+    <script type="module" src="/app.js"></script>
   </body>
 </html>
